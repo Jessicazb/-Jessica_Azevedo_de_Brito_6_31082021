@@ -1,6 +1,5 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
-const sauce = require('../models/sauce');
 
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
@@ -52,15 +51,11 @@ exports.getAllSauce = (req, res, next) => {
 
 exports.likesDeslikes = (req, res, next) => {
   // likes = 1 (likes = +1)
-  // likes = -1 (deslikes = +1)
-  // likes = 0 ( deslikes = 0)
-
   // chercher l'objet dans la base do donnée
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       //res.status(200).json(sauce);
       if (!sauce.usersLiked.includes(req.body.userId) && req.body.like === 1) {
-        console.log("userId n'est pas dans usersLiked dans la base de donnée et requete front like a 1");
         // mise à jour sauce base de donnée
         Sauce.updateOne(
           { _id: req.params.id }, { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId } }
@@ -70,7 +65,6 @@ exports.likesDeslikes = (req, res, next) => {
       };
       // likes = 0 (likes neutre = 0)
       if (sauce.usersLiked.includes(req.body.userId) && req.body.like === 0) {
-        console.log("userId et like est égal à 0");
         // mise à jour sauce base de donnée
         Sauce.updateOne(
           { _id: req.params.id }, { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
@@ -78,7 +72,24 @@ exports.likesDeslikes = (req, res, next) => {
           .then(() => (201).json({ message: "Like supprimé!" }))
           .catch((error) => res.status(400).json({ error }));
       };
-
+      // likes = -1 (deslikes = +1)
+      if (!sauce.usersDisliked.includes(req.body.userId) && req.body.like === -1) {
+        // mise à jour sauce base de donnée
+        Sauce.updateOne(
+          { _id: req.params.id }, { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId } }
+        )
+          .then(() => (201).json({ message: "Dislike ajouté!" }))
+          .catch((error) => res.status(400).json({ error }));
+      };
+      // likes = 0 ( deslikes = 0)
+      if (sauce.usersDisliked.includes(req.body.userId) && req.body.like === 0) {
+        // mise à jour sauce base de donnée
+        Sauce.updateOne(
+          { _id: req.params.id }, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
+        )
+          .then(() => (201).json({ message: "Dislike supprimé!" }))
+          .catch((error) => res.status(400).json({ error }));
+      };
 
     })
     .catch((error) => res.status(404).json({ error }));
