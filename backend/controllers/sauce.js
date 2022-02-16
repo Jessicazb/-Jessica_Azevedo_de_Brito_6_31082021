@@ -54,7 +54,6 @@ exports.getAllSauce = (req, res, next) => {
 
 // Envoie de like et dislike (POST)
 exports.likesDislikes = (req, res, next) => {
-  console.log("1");
   // likes = 1 (likes = +1)
   // chercher l'objet dans la base do donnée
   Sauce.findOne({ _id: req.params.id })

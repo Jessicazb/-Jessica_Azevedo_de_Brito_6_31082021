@@ -3,6 +3,7 @@ const app = express();
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 const path = require('path');
+
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb+srv://Jessica:melancia@cluster0.au5c8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
+
 app.use(express.json());
 
 app.use('/api/sauces',sauceRoutes);
