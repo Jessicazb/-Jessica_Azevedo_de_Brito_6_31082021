@@ -54,6 +54,7 @@ exports.getAllSauce = (req, res, next) => {
 
 // Envoie de like et dislike (POST)
 exports.likesDislikes = (req, res, next) => {
+  console.log("1");
   // likes = 1 (likes = +1)
   // chercher l'objet dans la base do donnée
   Sauce.findOne({ _id: req.params.id })
@@ -64,7 +65,7 @@ exports.likesDislikes = (req, res, next) => {
         Sauce.updateOne(
           { _id: req.params.id }, { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId } }
         )
-          .then(() => (201).json({ message: "Like ajouté!" }))
+          .then(() => res.status(201).json({ message: "Like ajouté!" }))
           .catch((error) => res.status(400).json({ error }));
       };
       // likes = 0 (likes neutre = 0)
@@ -73,7 +74,7 @@ exports.likesDislikes = (req, res, next) => {
         Sauce.updateOne(
           { _id: req.params.id }, { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
         )
-          .then(() => (201).json({ message: "Like supprimé!" }))
+          .then(() => res.status(201).json({ message: "Like supprimé!" }))
           .catch((error) => res.status(400).json({ error }));
       };
       // likes = -1 (deslikes = +1)
@@ -82,7 +83,7 @@ exports.likesDislikes = (req, res, next) => {
         Sauce.updateOne(
           { _id: req.params.id }, { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId } }
         )
-          .then(() => (201).json({ message: "Dislike ajouté!" }))
+          .then(() => res.status(201).json({ message: "Dislike ajouté!" }))
           .catch((error) => res.status(400).json({ error }));
       };
       // likes = 0 ( dislikes = 0)
@@ -91,7 +92,7 @@ exports.likesDislikes = (req, res, next) => {
         Sauce.updateOne(
           { _id: req.params.id }, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
         )
-          .then(() => (201).json({ message: "Dislike supprimé!" }))
+          .then(() => res.status(201).json({ message: "Dislike supprimé!" }))
           .catch((error) => res.status(400).json({ error }));
       };
 
