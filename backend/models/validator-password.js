@@ -1,3 +1,4 @@
+// Validation d'un mot de passe robuste pour la sécurité 
 const passwordValidator = require('password-validator');
 const passwordSchema = new passwordValidator();
 

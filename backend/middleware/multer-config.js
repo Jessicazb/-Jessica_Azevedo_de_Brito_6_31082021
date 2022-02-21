@@ -1,3 +1,4 @@
+// Gestion des fichiers entrants 
 const multer = require('multer');
 
 const MIME_TYPES = {

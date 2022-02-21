@@ -1,3 +1,4 @@
+// logique de routes
 const express = require('express');
 const router = express.Router();
 const validatePassword = require ('../middleware/password');

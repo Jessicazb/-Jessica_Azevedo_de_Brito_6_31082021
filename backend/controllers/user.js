@@ -1,8 +1,10 @@
 // système de hachage par bcrypt
 const bcrypt = require('bcrypt');
+// package pour la création de token d'authentification
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+// création d'un compte
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -17,6 +19,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+// connexion à un compte
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
       .then(user => {

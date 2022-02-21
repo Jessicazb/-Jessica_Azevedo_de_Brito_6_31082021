@@ -1,4 +1,4 @@
-// authentification sur les routes sauces 
+// middleware d'authentification 
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {

@@ -1,3 +1,4 @@
+// Logique métier de routes 
 const Sauce = require('../models/sauce');
 const fs = require('fs');
 
@@ -58,7 +59,6 @@ exports.likesDislikes = (req, res, next) => {
   // chercher l'objet dans la base do donnée
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      //res.status(200).json(sauce);
       if (!sauce.usersLiked.includes(req.body.userId) && req.body.like === 1) {
         // mise à jour sauce base de donnée
         Sauce.updateOne(
